@@ -62,6 +62,7 @@ void ACPP_PlayerShip::SelectShip()
 		HighlightEnemies();
 	}
 	*/
+
 	if (Board->SelectedShip != nullptr)
 	{
 		Board->SelectedShip->Tile->RemoveHighlight();
@@ -70,6 +71,7 @@ void ACPP_PlayerShip::SelectShip()
 	Board->SelectedShip = this;
 	if (ActionPoints != 0)
 	{
+		Tile->UpdateReachableTiles();
 		Tile->HighlightNeighbors();
 		HighlightEnemies();
 	}
@@ -134,6 +136,17 @@ void ACPP_PlayerShip::RemoveHighlight()
 	{
 		OpponentShip->RemoveHighlight();
 	}
+}
+
+void ACPP_PlayerShip::ReceiveDamage(ACPP_OpponentShip* OpponentShip)
+{
+	HealthPoints -= OpponentShip->Damage;
+	if (HealthPoints == 0)
+	{
+		Destroy();
+	}
+	OpponentShip->ActionPoints--;
+	OpponentShip->Bullets--;
 }
 
 TMap<FString, int32> ACPP_PlayerShip::CreateJsonData()

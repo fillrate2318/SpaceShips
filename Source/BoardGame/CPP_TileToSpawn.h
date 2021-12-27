@@ -28,35 +28,44 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "Visualisation")
-		UStaticMeshComponent* MeshComponent;
+	UStaticMeshComponent* MeshComponent;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Visualisation")
-		UMaterialInterface* HighlightMaterial;
+	UMaterialInterface* HighlightMaterial;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Visualisation")
-		UMaterialInterface* DefaultMaterial;
+	UMaterialInterface* DefaultMaterial;
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "TileProperties")
-		int32 Index;
+	int32 Index;
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "TileProperties")
-		TArray<int32> ValidMoves;
+	TArray<int32> ClosestNeighbors;
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "TileProperties")
-		bool IsEmpty;
+	TArray<int32> ReachableTiles;
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "TileProperties")
-		ACPP_OpponentShip* OpponentShip;
+	bool IsEmpty;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "TileProperties")
+	ACPP_PlayerShip* PlayerShip;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "TileProperties")
+	ACPP_OpponentShip* OpponentShip;
 
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "TileProperties")
-		ACPP_Board* Board;
+	ACPP_Board* Board;
 
 	UFUNCTION(BlueprintCallable, Category = "Visualisation")
-		void HighlightNeighbors();
+	void HighlightNeighbors();
+
+	UFUNCTION(BlueprintCallable, Category = "Board Logic")
+	void UpdateReachableTiles();
 
 	UFUNCTION(BlueprintCallable, Category = "Visualisation")
-		void RemoveHighlight();
+	void RemoveHighlight();
 
 	UFUNCTION(BlueprintCallable, Category = "Player Action")
-		void MoveShip();
+	void MoveShip();
 };

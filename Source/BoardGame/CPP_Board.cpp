@@ -72,17 +72,20 @@ void ACPP_Board::SpawnBoard()
 		}
 		switch(Board[i])
 		{
+			/*
 			case(0):
 				ChangeSpawnLocationY();
 				TilesArray.Add(nullptr);
 				break;
-			case(1):
+			*/
+			case(0):
 				SpawnedTile = SpawnTileActor(i);
 				TilesArray.Add(SpawnedTile);
 				if (PlayerShipLocations.Contains(i))
 				{
 					ACPP_PlayerShip* PlayerShip = SpawnPlayerShipActor();
 					PlayerShip->Tile = SpawnedTile;
+					SpawnedTile->PlayerShip = PlayerShip;
 					SpawnedTile->IsEmpty = false;
 				}
 				if (OpponentShipLocations.Contains(i))
@@ -94,7 +97,7 @@ void ACPP_Board::SpawnBoard()
 				SetNeighbors(SpawnedTile);
 				ChangeSpawnLocationY();
 				break;
-			case(2):
+			case(1):
 				SpawnBorderActor();
 				ChangeSpawnLocationY();
 				TilesArray.Add(nullptr);
@@ -168,7 +171,7 @@ void ACPP_Board::SetNeighbors(ACPP_TileToSpawn* Tile)
 			{
 				if (TargetTileIndex / BoardSize == (TileIndex / BoardSize) + j)
 				{
-					if (Board[TargetTileIndex] == 1)
+					if (Board[TargetTileIndex] == 0)
 					{
 						ValidMoves.Add(TargetTileIndex);
 					}
@@ -177,7 +180,7 @@ void ACPP_Board::SetNeighbors(ACPP_TileToSpawn* Tile)
 		}
 	}
 	ValidMoves.Remove(TileIndex);
-	Tile->ValidMoves = ValidMoves;
+	Tile->ClosestNeighbors = ValidMoves;
 }
 
 void ACPP_Board::UpdateShipStats()
@@ -191,7 +194,50 @@ void ACPP_Board::UpdateShipStats()
 	}
 }
 
-void ACPP_Board::PerformOpponentAction()
+void ACPP_Board::PerformOpponentAction(FString Action, int StartField, int TargetField)
 {
-	
+	FTimerHandle UnusedHandle;
+	if (StartField == NULL || TargetField == NULL)
+	{
+		//UE_LOG(LogTemp, Warning, TEXT("Error"));
+		return;
+	}
+	else
+	{
+		
+	}
+	ACPP_TileToSpawn* StartTile = TilesArray[StartField];
+	ACPP_TileToSpawn* TargetTile = TilesArray[TargetField];
+	ACPP_OpponentShip* OpponentShip = StartTile->OpponentShip;
+
+	UE_LOG(LogTemp, Warning, TEXT("%s %d %d"), *Action, StartField, TargetField);
+
+	if (Action == "move")
+	{
+		if (OpponentShip != nullptr)
+		{
+			OpponentShip->MoveShip(TargetTile);
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Error"));
+		}
+	}
+	else if (Action == "transfer")
+	{
+		if (StartTile->OpponentShip != nullptr && TargetTile->OpponentShip != nullptr)
+		{
+			StartTile->OpponentShip->ActionPoints--;
+			TargetTile->OpponentShip->ActionPoints++;
+		}
+		else
+		{
+			//UE_LOG(LogTemp, Warning, TEXT("Error"));
+		}
+	}
+	else if (Action == "shoot")
+	{
+		
+	}
+	//GetWorldTimerManager().SetTimer(UnusedHandle, this, &ACPP_Board::TimerElapsed, TimerDelay, false);
 }

@@ -62,6 +62,16 @@ void ACPP_OpponentShip::ReceiveDamage()
 	}
 }
 
+void ACPP_OpponentShip::MoveShip(ACPP_TileToSpawn* TargetTile)
+{
+	SetActorLocation(TargetTile->GetActorLocation());
+	this->Tile->IsEmpty = true;
+	this->Tile->OpponentShip = nullptr;
+	this->Tile = TargetTile;
+	TargetTile->OpponentShip = this;
+	TargetTile->IsEmpty = false;
+}
+
 TMap<FString, int32> ACPP_OpponentShip::CreateJsonData()
 {
 	TMap<FString, int32> JsonData;

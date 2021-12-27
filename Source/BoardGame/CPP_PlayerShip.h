@@ -25,50 +25,53 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "State")
-		ACPP_TileToSpawn* Tile;
+	ACPP_TileToSpawn* Tile;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "State")
-		ACPP_Board* Board;
+	ACPP_Board* Board;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "State")
-		TArray<ACPP_OpponentShip*> ReachableEnemies;
+	TArray<ACPP_OpponentShip*> ReachableEnemies;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Ship Stats")
-		int32 HealthPoints;
+	int32 HealthPoints;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Ship Stats")
-		int32 ActionPoints;
+	int32 ActionPoints;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Ship Stats")
-		int32 Bullets;
+	int32 Bullets;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Ship Stats")
-		int32 Transfers;
+	int32 Transfers;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Ship Stats")
-		int32 Moves;
+	int32 Moves;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Ship Stats")
-		int32 Damage;
+	int32 Damage;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Ship Stats")
-		int32 AttackRadius;
+	int32 AttackRadius;
 
 	UFUNCTION(BlueprintCallable, Category = "Initialization")
-		void InitShipStats();
+	void InitShipStats();
 
 	UFUNCTION(BlueprintCallable, Category = "Player Action")
-		void SelectShip();
+	void SelectShip();
 
 	UFUNCTION(BlueprintCallable, Category = "Player Action")
-		bool PassPoints();
+	bool PassPoints();
+
+	UFUNCTION(BlueprintCallable, Category = "Player Action")
+	void ReceiveDamage(ACPP_OpponentShip* OpponentShip);
 
 	UFUNCTION(BlueprintCallable, Category = "Visualisation")
-		void HighlightEnemies();
+	void HighlightEnemies();
 
 	UFUNCTION(BlueprintCallable, Category = "Visualisation")
-		void RemoveHighlight();
+	void RemoveHighlight();
 
 	UFUNCTION(BlueprintCallable, Category = "JsonCommunication")
-		TMap<FString, int32> CreateJsonData();
+	TMap<FString, int32> CreateJsonData();
 };

@@ -28,97 +28,97 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(BlueprintReadOnly, Category = "Initialization")
-		FString FileName;
+	FString FileName;
 
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "Initialization")
-		TArray<uint8> Board;
+	TArray<uint8> Board;
 
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "Initialization")
-		TArray<ACPP_TileToSpawn*> TilesArray;
+	TArray<ACPP_TileToSpawn*> TilesArray;
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "MapSettings")
-		int32 BoardSize;
+	int32 BoardSize;
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "MapSettings")
-		int32 TileSize;
+	int32 TileSize;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "MapSettings")
-		TArray<int32> PlayerShipLocations;
+	TArray<int32> PlayerShipLocations;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "MapSettings")
-		TArray<int32> OpponentShipLocations;
+	TArray<int32> OpponentShipLocations;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "MapSettings")
-		TMap<int32, int32> TeleportLocations;
+	TMap<int32, int32> TeleportLocations;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "MapSettings")
-		int32 PointsPerMove;
+	int32 PointsPerMove;
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "State")
-		ACPP_PlayerShip* SelectedShip;
+	ACPP_PlayerShip* SelectedShip;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "State")
-		FString SelectedMode;
+	FString SelectedMode;
 
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "SpawnLocation")
-		FVector SpawnLocation;
+	FVector SpawnLocation;
 
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "SpawnLocation")
-		float StartLocation;
+	float StartLocation;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "SpawnedActors")
-		TArray<ACPP_PlayerShip*> SpawnedPlayerShips;
+	TArray<ACPP_PlayerShip*> SpawnedPlayerShips;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "SpawnedActors")
-		TArray<ACPP_OpponentShip*> SpawnedOpponentShips;
+	TArray<ACPP_OpponentShip*> SpawnedOpponentShips;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ActorsToSpawn")
-		TSubclassOf<ACPP_TileToSpawn> TileToSpawnClass;
+	TSubclassOf<ACPP_TileToSpawn> TileToSpawnClass;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ActorsToSpawn")
-		TSubclassOf<ACPP_BorderToSpawn> BorderToSpawnClass;
+	TSubclassOf<ACPP_BorderToSpawn> BorderToSpawnClass;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ActorsToSpawn")
-		TSubclassOf<ACPP_PlayerShip> PlayerShipClass;
+	TSubclassOf<ACPP_PlayerShip> PlayerShipClass;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ActorsToSpawn")
-		TSubclassOf<ACPP_OpponentShip> OpponentShipClass;
+	TSubclassOf<ACPP_OpponentShip> OpponentShipClass;
 
 
 
 	UFUNCTION(BlueprintCallable, Category = "Initialization")
-		FString ReadMapConfiguration();
+	FString ReadMapConfiguration();
 
 	UFUNCTION(BlueprintCallable, Category = "Initialization")
-		void FileStringToIntArray(FString FileString);
+	void FileStringToIntArray(FString FileString);
 
 	UFUNCTION(BlueprintCallable, Category = "Spawn")
-		void SpawnBoard();
+	void SpawnBoard();
 
 	UFUNCTION(BlueprintCallable, Category = "SpawnLocation")
-		void ChangeSpawnLocationX();
+	void ChangeSpawnLocationX();
 
 	UFUNCTION(BlueprintCallable, Category = "SpawnLocation")
-		void ChangeSpawnLocationY();
+	void ChangeSpawnLocationY();
 
 	UFUNCTION(BlueprintCallable, Category = "Spawn")
-		ACPP_TileToSpawn* SpawnTileActor(int TileIndex);
+	ACPP_TileToSpawn* SpawnTileActor(int TileIndex);
 
 	UFUNCTION(BlueprintCallable, Category = "Spawn")
-		void SpawnBorderActor();
+	void SpawnBorderActor();
 
 	UFUNCTION(BlueprintCallable, Category = "Spawn")
-		ACPP_PlayerShip* SpawnPlayerShipActor();
+	ACPP_PlayerShip* SpawnPlayerShipActor();
 
 	UFUNCTION(BlueprintCallable, Category = "Spawn")
-		ACPP_OpponentShip* SpawnOpponentShipActor();
+	ACPP_OpponentShip* SpawnOpponentShipActor();
 
 	UFUNCTION(BlueprintCallable, Category = "TileInitialization")
-		void SetNeighbors(ACPP_TileToSpawn* Tile);
+	void SetNeighbors(ACPP_TileToSpawn* Tile);
 
 	UFUNCTION(BlueprintCallable, Category = "Update")
-		void UpdateShipStats();
+	void UpdateShipStats();
 
 	UFUNCTION(BlueprintCallable, Category = "Update")
-		void PerformOpponentAction();
+	void PerformOpponentAction(FString Action, int StartField, int TargetField);
 };

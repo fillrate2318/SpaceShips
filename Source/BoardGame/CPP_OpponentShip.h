@@ -28,44 +28,50 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "Visualisation")
-		UStaticMeshComponent* MeshComponent;
+	UStaticMeshComponent* MeshComponent;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Visualisation")
-		UMaterialInterface* HighlightMaterial;
+	UMaterialInterface* HighlightMaterial;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Visualisation")
-		UMaterialInterface* DefaultMaterial;
+	UMaterialInterface* DefaultMaterial;
 
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "State")
-		ACPP_TileToSpawn* Tile;
+	ACPP_TileToSpawn* Tile;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "State")
-		ACPP_Board* Board;
+	ACPP_Board* Board;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Ship Stats")
-		int32 HealthPoints;
+	int32 HealthPoints;
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Ship Stats")
-		int32 ActionPoints;
+	int32 ActionPoints;
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Ship Stats")
+	int32 Damage;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Ship Stats")
-		int32 Bullets;
+	int32 Bullets;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Ship Stats")
-		int32 Transfers;
+	int32 Transfers;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Ship Stats")
-		int32 Moves;
+	int32 Moves;
 
 	UFUNCTION(BlueprintCallable, Category = "Visualisation")
-		void HighlightEnemy();
+	void HighlightEnemy();
 
 	UFUNCTION(BlueprintCallable, Category = "Visualisation")
-		void RemoveHighlight();
+	void RemoveHighlight();
 
 	UFUNCTION(BlueprintCallable, Category = "Player Action")
-		void ReceiveDamage();
+	void ReceiveDamage();
+
+	UFUNCTION(BlueprintCallable, Category = "Opponent Action")
+	void MoveShip(ACPP_TileToSpawn* TargetTile);
 
 	UFUNCTION(BlueprintCallable, Category = "JsonCommunication")
-		TMap<FString, int32> CreateJsonData();
+	TMap<FString, int32> CreateJsonData();
 };
