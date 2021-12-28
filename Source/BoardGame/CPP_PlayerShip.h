@@ -24,12 +24,15 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	/** Current tile reference of player ship */
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "State")
 	ACPP_TileToSpawn* Tile;
 
+	/** Reference to the board */
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "State")
 	ACPP_Board* Board;
 
+	/** List of opponent ships that can be attacked */
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "State")
 	TArray<ACPP_OpponentShip*> ReachableEnemies;
 

@@ -43,26 +43,6 @@ void ACPP_PlayerShip::InitShipStats()
 
 void ACPP_PlayerShip::SelectShip()
 {
-	/*
-	if (Board->SelectedMode == "Move")
-	{
-		if (Board->SelectedShip != nullptr)
-		{
-			Board->SelectedShip->Tile->RemoveHighlight();
-			Board->SelectedShip->RemoveHighlight();
-		}
-		Board->SelectedShip = this;
-		if (ActionPoints != 0)
-		{
-			Tile->HighlightNeighbors();
-		}
-		
-	} else if (Board->SelectedMode == "Attack")
-	{
-		HighlightEnemies();
-	}
-	*/
-
 	if (Board->SelectedShip != nullptr)
 	{
 		Board->SelectedShip->Tile->RemoveHighlight();
@@ -96,12 +76,6 @@ void ACPP_PlayerShip::HighlightEnemies()
 	ReachableEnemies.Empty();
 	const int32 TileIndex = Tile->Index;
 	const uint16 BoardSize = Board->BoardSize;
-	/*
-	if (Board->SelectedMode != "Attack")
-	{
-		return;
-	}
-	*/
 	for (int j = -1; j <= 1; j++)
 	{
 		for (int i = -1; i <= 1; i++)

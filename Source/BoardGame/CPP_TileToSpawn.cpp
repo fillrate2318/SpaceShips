@@ -34,6 +34,7 @@ void ACPP_TileToSpawn::HighlightNeighbors()
 {
 	for (const int32 Tile : ReachableTiles)
 	{
+		ACPP_TileToSpawn* TileActor = Board->TilesArray[Tile];
 		if (Board->TilesArray[Tile]->IsEmpty)
 		{
 			Board->TilesArray[Tile]->MeshComponent->SetMaterial(0, HighlightMaterial);
@@ -45,15 +46,21 @@ void ACPP_TileToSpawn::UpdateReachableTiles()
 {
 	int Depth = 1;
 	ReachableTiles.Empty();
-	if (Board->SelectedShip != nullptr)
+	for (int32 Tile : Board->SelectedShip->Tile->ClosestNeighbors)
 	{
-		ReachableTiles.Append(Board->SelectedShip->Tile->ClosestNeighbors);
-		while (Depth != PlayerShip->ActionPoints)
+		if (Board->TilesArray[Tile]->IsEmpty)
 		{
-			const int Length = ReachableTiles.Num();
-			for (int i = 0; i < Length; i++)
+			ReachableTiles.Add(Tile);
+		}
+	}
+	while (Depth != PlayerShip->ActionPoints)
+	{
+		const int Length = ReachableTiles.Num();
+		for (int i = 0; i < Length; i++)
+		{
+			for (int32 Move : Board->TilesArray[ReachableTiles[i]]->ClosestNeighbors)
 			{
-				for (int32 Move : Board->TilesArray[ReachableTiles[i]]->ClosestNeighbors)
+				if (Board->TilesArray[Move]->IsEmpty)
 				{
 					if (!ReachableTiles.Contains(Move))
 					{
@@ -61,16 +68,11 @@ void ACPP_TileToSpawn::UpdateReachableTiles()
 					}
 				}
 			}
-			Depth++;
-		}
-
-		ReachableTiles.Remove(Index);
-
-		for (const int32 TileIndex : ReachableTiles)
-		{
-			ReachableTiles.Add(TileIndex);
-		}
+		} 
+		Depth++;
 	}
+
+	ReachableTiles.Remove(Index);
 }
 
 
@@ -94,9 +96,12 @@ void ACPP_TileToSpawn::MoveShip()
 			{
 				Board->SelectedShip->Tile->RemoveHighlight();
 				Board->SelectedShip->Tile->IsEmpty = true;
+				Board->SelectedShip->Tile->ReachableTiles.Empty();
+				Board->SelectedShip->Tile->PlayerShip = nullptr;
 
 				Board->SelectedShip->Tile = this;
 				Board->SelectedShip->Tile->IsEmpty = false;
+				Board->SelectedShip->Tile->PlayerShip = Board->SelectedShip;
 
 				Board->SelectedShip->SetActorLocation(GetActorLocation());
 				Board->SelectedShip->HighlightEnemies();
@@ -125,45 +130,5 @@ void ACPP_TileToSpawn::MoveShip()
 			Board->SelectedShip->Tile->RemoveHighlight();
 			Board->SelectedShip = nullptr;
 		}
-		
-		/*
-		if (Board->SelectedShip->Tile->ValidMoves.Contains(Index))
-		{
-			if (Board->SelectedShip->ActionPoints != 0 && Board->SelectedShip->Moves != 0)
-			{
-				Board->SelectedShip->Tile->RemoveHighlight();
-				Board->SelectedShip->Tile->IsEmpty = true;
-
-				Board->SelectedShip->Tile = this;
-				Board->SelectedShip->Tile->IsEmpty = false;
-
-				Board->SelectedShip->SetActorLocation(GetActorLocation());
-				Board->SelectedShip->HighlightEnemies();
-
-				Board->SelectedShip->ActionPoints--;
-				Board->SelectedShip->Moves--;
-
-				if (Board->SelectedShip->ActionPoints == 0 || Board->SelectedShip->Moves == 0)
-				{
-					Board->SelectedShip->Tile->RemoveHighlight();
-				}
-				else
-				{
-					HighlightNeighbors();
-				}
-
-				
-			}
-			else
-			{
-				Board->SelectedShip->Tile->RemoveHighlight();
-			}
-		}
-		else
-		{
-			Board->SelectedShip->Tile->RemoveHighlight();
-			Board->SelectedShip = nullptr;
-		}
-		*/
 	}
 }
